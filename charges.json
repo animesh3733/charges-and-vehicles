@@ -1,0 +1,43 @@
+[
+    {
+      "chargerModel": "ABB Terra 53",
+      "connectors": ["CCS2", "CHAdeMO"],
+      "powerRating": "50-350 kW"
+    },
+    {
+      "chargerModel": "Bosch Power Max 2",
+      "connectors": ["Type 2"],
+      "powerRating": "7.2 kW"
+    },
+    {
+      "chargerModel": "Delta AC Mini",
+      "connectors": ["Type 2"],
+      "powerRating": "3.7-22 kW"
+    },
+    {
+      "chargerModel": "EVBox Elvi",
+      "connectors": ["CCS2", "Type 2"],
+      "powerRating": "7.4-22 kW"
+    },
+    {
+      "chargerModel": "JuiceBox Pro 40",
+      "connectors": ["Type 2"],
+      "powerRating": "9.6 kW"
+    },
+    {
+      "chargerModel": "Siemens VersiCharge",
+      "connectors": ["Type 2"],
+      "powerRating": "7.2 kW"
+    },
+    {
+      "chargerModel": "Tritium Veefil-PK",
+      "connectors": ["CCS2", "CHAdeMO"],
+      "powerRating": "50 kW"
+    },
+    {
+      "chargerModel": "Webasto Pure",
+      "connectors": ["CCS2", "Type 2"],
+      "powerRating": "22 kW"
+    }
+  ]
+  
