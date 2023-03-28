@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 [  
   {  
     "modelname": "Tesla Model 3",    
@@ -48,3 +49,56 @@
     "connectorType": [ "GBT" ]
   }
 ]
+=======
+[
+    {
+      "modelname": "Tesla Model 3",
+      "connectorType": ["CCS1", "CCS2", "Tesla Supercharger"]
+    },
+    {
+      "modelname": "Tesla Model S",
+      "connectorType": ["CCS1", "CCS2", "Tesla Supercharger", "Tesla Wall Connector"]
+    },
+    {
+      "modelname": "Tesla Model X",
+      "connectorType": ["CCS1", "CCS2", "Tesla Supercharger", "Tesla Wall Connector"]
+    },
+    {
+      "modelname": "Nissan Leaf",
+      "connectorType": ["CHAdeMO", "Type 2"]
+    },
+    {
+      "modelname": "Renault Zoe",
+      "connectorType": ["Type 2"]
+    },
+    {
+      "modelname": "Hyundai Kona Electric",
+      "connectorType": ["Type 2", "CCS1", "CCS2"]
+    },
+    {
+      "modelname": "Volkswagen e-Golf",
+      "connectorType": ["Type 2", "CCS1"]
+    },
+    {
+      "modelname": "Chevrolet Bolt",
+      "connectorType": ["CCS1", "CCS2"]
+    },
+    {
+      "modelname": "BMW i3",
+      "connectorType": ["Type 2", "CCS1", "CCS2"]
+    },
+    {
+      "modelname": "Kia Soul EV",
+      "connectorType": ["Type 2", "CCS1", "CCS2"]
+    },
+    {
+      "modelname": "Jaguar I-Pace",
+      "connectorType": ["Type 2", "CCS1", "CCS2"]
+    },
+    {
+      "modelname": "WM Motor EX5",
+      "connectorType": ["GBT"]
+    }
+]
+  
+>>>>>>> Stashed changes
