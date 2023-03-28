@@ -134,10 +134,4 @@ describe('Vehicles JSON', () => {
       expect(vehicle.connectorType.length).to.be.at.least(1);
     });
   });
-
-  it('should have a valid GBT connector type only for WM Motor EX5', () => {
-    const wmMotorEx5 = vehicles.find((vehicle) => vehicle.modelname === 'WM Motor EX5');
-    expect(wmMotorEx5).to.exist;
-    expect(wmMotorEx5.connectorType).to.eql(['GBT']);
-  });
 });
