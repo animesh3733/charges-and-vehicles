@@ -1,7 +1,12 @@
 [
     {
-      "chargerModel": "ABB Terra 53",
+      "chargerModel": "ABB Terra 53 CJG",
       "connectors": ["CCS2", "CHAdeMO"],
+      "powerRating": "50 kW"
+    },
+    {
+      "chargerModel": "ABB Terra 53 CJ",
+      "connectors": ["CHAdeMO"],
       "powerRating": "50 kW"
     },
     {
@@ -17,7 +22,17 @@
     {
       "chargerModel": "EVBox Elvi",
       "connectors": ["CCS2", "Type 2"],
+      "powerRating": "11 kW"
+    },
+    {
+      "chargerModel": "EVBox Elvi PRO",
+      "connectors": ["CCS2"],
       "powerRating": "7.4 kW"
+    },
+    {
+      "chargerModel": "EVBox Elvi HOME",
+      "connectors": ["Type 2"],
+      "powerRating": "3.6 kW"
     },
     {
       "chargerModel": "JuiceBox Pro 40",
@@ -30,14 +45,19 @@
       "powerRating": "7.2 kW"
     },
     {
-      "chargerModel": "Tritium Veefil-PK",
-      "connectors": ["CCS2", "CHAdeMO"],
-      "powerRating": "50 kW"
+      "chargerModel": "Webasto Pure 22",
+      "connectors": ["Type 2"],
+      "powerRating": "22 kW"
     },
     {
-      "chargerModel": "Webasto Pure",
+      "chargerModel": "Webasto Pure 30",
       "connectors": ["CCS2", "Type 2"],
-      "powerRating": "22 kW"
+      "powerRating": "30 kW"
+    },
+    {
+      "chargerModel": "Webasto Pure 40",
+      "connectors": ["CCS2", "Type 2"],
+      "powerRating": "40 kW"
     }
 ]
   
