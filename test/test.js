@@ -1,9 +1,54 @@
-// const assert = require('assert');
+const express = require('express');
 const {expect} = require('chai');
+const axios = require('axios');
+const app = express();
+// const assert = require('assert');
 // const mocha = require('mocha');
 
 const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
+
+
+describe('Chargers and Vehicles API', () => {
+  let server;
+
+  before((done) => {
+    server = app.listen(3000, () => {
+      console.log('Server started');
+      done();
+    });
+  });
+
+  after(() => {
+    server.close(() => {
+      console.log('Server stopped');
+    });
+  });
+
+  describe('GET /chargers', () => {
+    it('should return an array of chargers', async () => {
+      const response = await axios.get('http://localhost:3000/chargers');
+      expect(response.status).to.equal(200);
+      expect(response.data).to.be.an('array');
+      expect(response.data.length).to.be.greaterThan(0);
+      expect(response.data[0]).to.have.property('modelname');
+      expect(response.data[0]).to.have.property('connectorType');
+    });
+  });
+
+  describe('GET /vehicles', () => {
+    it('should return an array of vehicles', async () => {
+      const response = await axios.get('http://localhost:3000/vehicles');
+      expect(response.status).to.equal(200);
+      expect(response.data).to.be.an('array');
+      expect(response.data.length).to.be.greaterThan(0);
+      expect(response.data[0]).to.have.property('make');
+      expect(response.data[0]).to.have.property('model');
+      expect(response.data[0]).to.have.property('year');
+    });
+  });
+});
+
 
 describe('Test Suite for Charges and Vehicles JSON files', () => {
   it('should have a valid charger model', () => {
