@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 router.get('/chargers', (req, res) => {
-  axios.get('https://raw.githubusercontent.com/ppadmaprasadshenoy/charges-and-vehicles/main/charges.json')
+  axios.get('https://raw.githubusercontent.com/animesh3733/charges-and-vehicles/main/chargers.json')
       .then((response) => {
         const data = response.data;
         res.json(data);
