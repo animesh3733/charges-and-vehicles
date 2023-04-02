@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/vehicles', (req, res) => {
+router.get('/get-vehicles', (req, res) => {
   axios.get('https://raw.githubusercontent.com/animesh3733/charges-and-vehicles/main/vehicles.json')
       .then((response) => {
         const data = response.data;

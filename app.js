@@ -8,3 +8,5 @@ app.use('/chargers', chargers);
 app.use('/vehicles', vehicles);
 
 app.listen(3000);
+
+module.exports = app;
