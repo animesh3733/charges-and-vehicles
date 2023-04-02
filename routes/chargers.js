@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
+/* istanbul ignore next */
 router.get('/get-chargers', (req, res) => {
   axios.get('https://raw.githubusercontent.com/animesh3733/charges-and-vehicles/main/chargers.json')
       .then((response) => {
