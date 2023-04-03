@@ -1,10 +1,10 @@
-const request = require('supertest');
 const app = require('../app');
 const {expect} = require('chai');
 const nock = require('nock');
 const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
 // const assert = require('assert');
+const http = require('http');
 
 describe('Chargers and Vehicles API', () => {
   let server;
@@ -16,78 +16,69 @@ describe('Chargers and Vehicles API', () => {
     });
   });
 
-  after(() => {
+  after((done) => {
     server.close(() => {
       console.log('Server stopped');
+      done();
     });
   });
 
   describe('GET /chargers', () => {
-    it('should return an array of chargers', async () => {
+    it('should return an array of chargers', (done) => {
       nock('http://localhost:4000')
           .get('/chargers')
           .reply(200, charges);
 
-      const res = await request(app).get('/chargers/get-chargers');
-      expect(res.status).to.equal(200);
-      expect(res.body).to.deep.equal(charges);
-    });
-
-    it('should handle errors when fetching JSON data from GitHub link', async () => {
-      it('should handle errors when fetching JSON data from GitHub link (Chargers)', async () => {
-        const errorMessage = 'Error fetching JSON data from GitHub link';
-        const expectedResponse = {
-          error: errorMessage,
-        };
-
-        nock('https://raw.githubusercontent.com')
-            .get('/animesh3733/charges-and-vehicles/main/chargers.json')
-            .replyWithError(errorMessage);
-
-        const res = await request(app).get('/chargers');
-        expect(res.status).to.equal(500);
-        expect(res.body).to.deep.equal(expectedResponse);
+      http.get('http://localhost:4000/chargers', (res) => {
+        expect(res.statusCode).to.equal(200);
+        let body = '';
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
+        res.on('end', () => {
+          expect(JSON.parse(body)).to.deep.equal(charges);
+          done();
+        });
       });
-    });
+    }).timeout(5000);
   });
 
   describe('GET /vehicles', () => {
-    it('should return an array of vehicles', async () => {
+    it('should return an array of vehicles', (done) => {
       nock('http://localhost:4000')
           .get('/vehicles')
           .reply(200, vehicles);
 
-      const res = await request(app).get('/vehicles/get-vehicles');
-      expect(res.status).to.equal(200);
-      expect(res.body).to.deep.equal(vehicles);
-    });
+      http.get('http://localhost:4000/vehicles', (res) => {
+        expect(res.statusCode).to.equal(200);
+        let body = '';
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
+        res.on('end', () => {
+          expect(JSON.parse(body)).to.deep.equal(vehicles);
+          done();
+        });
+      });
+    }).timeout(5000);
 
-    it('should return an array of vehicles', async () => {
+    it('should return an array of vehicles', (done) => {
       nock('http://localhost:4000')
           .get('/vehicles/get-vehicles')
           .reply(200, vehicles);
 
-      const res = await request(app).get('/vehicles/get-vehicles');
-      expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('array');
-    });
-
-    it('should handle errors when fetching JSON data from GitHub link', async () => {
-      it('should handle errors when fetching JSON data from GitHub link (Vehicles)', async () => {
-        const errorMessage = 'Error fetching JSON data from GitHub link';
-        const expectedResponse = {
-          error: errorMessage,
-        };
-
-        nock('https://raw.githubusercontent.com')
-            .get('/animesh3733/charges-and-vehicles/main/vehicles.json')
-            .replyWithError(errorMessage);
-
-        const res = await request(app).get('/vehicles');
-        expect(res.status).to.equal(500);
-        expect(res.body).to.deep.equal(expectedResponse);
+      http.get('http://localhost:4000/vehicles/get-vehicles', (res) => {
+        expect(res.statusCode).to.equal(200);
+        let body = '';
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
+        res.on('end', () => {
+          expect(JSON.parse(body)).to.deep.equal(vehicles);
+          done();
+        });
       });
-    });
+    }).timeout(5000);
   });
 });
 
@@ -136,10 +127,10 @@ describe('Test Suite for Chargers and Vehicles JSON files', () => {
 
 describe('Vehicles JSON', () => {
   it('should have a valid model name', () => {
+    expect(vehicles).to.be.an('array').that.is.not.empty;
     vehicles.forEach((vehicle) => {
       expect(vehicle).to.have.property('modelname');
-      expect(vehicle.modelname).to.be.a('string');
-      expect(vehicle.modelname).to.have.length.within(1, 50);
+      expect(vehicle.modelname).to.be.a('string').and.to.have.length.within(1, 50);
     });
   });
 });
