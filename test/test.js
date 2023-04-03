@@ -3,81 +3,52 @@ const {expect} = require('chai');
 const nock = require('nock');
 const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
-// const assert = require('assert');
-const http = require('http');
+const axios = require('axios');
 
 describe('Chargers and Vehicles API', () => {
   let server;
 
-  before((done) => {
+  beforeEach((done) => {
     server = app.listen(4000, () => {
-      console.log('Server started');
       done();
     });
   });
 
-  after((done) => {
-    server.close(() => {
-      console.log('Server stopped');
-      done();
-    });
+  afterEach((done) => {
+    server.close(done);
   });
 
   describe('GET /chargers', () => {
-    it('should return an array of chargers', (done) => {
+    it('should return an array of chargers', async () => {
       nock('http://localhost:4000')
           .get('/chargers')
           .reply(200, charges);
 
-      http.get('http://localhost:4000/chargers', (res) => {
-        expect(res.statusCode).to.equal(200);
-        let body = '';
-        res.on('data', (chunk) => {
-          body += chunk;
-        });
-        res.on('end', () => {
-          expect(JSON.parse(body)).to.deep.equal(charges);
-          done();
-        });
-      });
+      const response = await axios.get('http://localhost:4000/chargers');
+      expect(response.status).to.equal(200);
+      expect(response.data).to.deep.equal(charges);
     }).timeout(5000);
   });
 
   describe('GET /vehicles', () => {
-    it('should return an array of vehicles', (done) => {
+    it('should return an array of vehicles', async () => {
       nock('http://localhost:4000')
           .get('/vehicles')
           .reply(200, vehicles);
 
-      http.get('http://localhost:4000/vehicles', (res) => {
-        expect(res.statusCode).to.equal(200);
-        let body = '';
-        res.on('data', (chunk) => {
-          body += chunk;
-        });
-        res.on('end', () => {
-          expect(JSON.parse(body)).to.deep.equal(vehicles);
-          done();
-        });
-      });
+      const response = await axios.get('http://localhost:4000/vehicles');
+      expect(response.status).to.equal(200);
+      expect(response.data).to.deep.equal(vehicles);
     }).timeout(5000);
 
-    it('should return an array of vehicles', (done) => {
+    it('should return an array of vehicles', async () => {
       nock('http://localhost:4000')
           .get('/vehicles/get-vehicles')
           .reply(200, vehicles);
 
-      http.get('http://localhost:4000/vehicles/get-vehicles', (res) => {
-        expect(res.statusCode).to.equal(200);
-        let body = '';
-        res.on('data', (chunk) => {
-          body += chunk;
-        });
-        res.on('end', () => {
-          expect(JSON.parse(body)).to.deep.equal(vehicles);
-          done();
-        });
-      });
+      const response = await axios.get('http://localhost:4000/vehicles/get-vehicles');
+      expect(response.status).to.equal(200);
+      expect(response.data).to.deep.equal(vehicles);
     }).timeout(5000);
   });
 });
