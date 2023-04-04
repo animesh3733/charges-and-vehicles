@@ -5,7 +5,7 @@ const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
 const axios = require('axios');
 
-describe('Chargers and Vehicles API', () => {
+describe('charges and Vehicles API', () => {
   let server;
 
   beforeEach((done) => {
@@ -18,13 +18,13 @@ describe('Chargers and Vehicles API', () => {
     server.close(done);
   });
 
-  describe('GET /chargers', () => {
-    it('should return an array of chargers', async () => {
+  describe('GET /charges', () => {
+    it('should return an array of charges', async () => {
       nock('http://localhost:4000')
-          .get('/chargers')
+          .get('/get-charges')
           .reply(200, charges);
 
-      const response = await axios.get('http://localhost:4000/chargers');
+      const response = await axios.get('http://localhost:4000/get-charges');
       expect(response.status).to.equal(200);
       expect(response.data).to.deep.equal(charges);
     }).timeout(5000);
@@ -53,7 +53,7 @@ describe('Chargers and Vehicles API', () => {
   });
 });
 
-describe('Test Suite for Chargers and Vehicles JSON files', () => {
+describe('Test Suite for charges and Vehicles JSON files', () => {
   it('should have a valid charger model', () => {
     charges.forEach((charge) => {
       expect(charge).to.have.property('chargerModel');
