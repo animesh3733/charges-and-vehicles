@@ -5,51 +5,30 @@ const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
 const axios = require('axios');
 
-describe('charges and Vehicles API', () => {
-  let server;
+const baseUrl = 'https://raw.githubusercontent.com';
 
-  beforeEach((done) => {
-    server = app.listen(4000, () => {
-      done();
-    });
+describe('Chargers JSON', () => {
+  beforeEach(() => {
+    nock(baseUrl)
+      .get('/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json')
+      .reply(200, charges);
   });
 
-  afterEach((done) => {
-    server.close(done);
+  afterEach(() => {
+    nock.cleanAll();
   });
 
-  describe('GET /charges', () => {
-    it('should return an array of charges', async () => {
-      nock('http://localhost:4000')
-          .get('/get-charges')
-          .reply(200, charges);
-
-      const response = await axios.get('http://localhost:4000/get-charges');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(charges);
-    }).timeout(5000);
+  it('should return all chargers', async () => {
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    expect(response.status).to.equal(200);
+    expect(response.data).to.deep.equal(charges);
   });
 
-  describe('GET /vehicles', () => {
-    it('should return an array of vehicles', async () => {
-      nock('http://localhost:4000')
-          .get('/vehicles')
-          .reply(200, vehicles);
-
-      const response = await axios.get('http://localhost:4000/vehicles');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(vehicles);
-    }).timeout(5000);
-
-    it('should return an array of vehicles', async () => {
-      nock('http://localhost:4000')
-          .get('/vehicles/get-vehicles')
-          .reply(200, vehicles);
-
-      const response = await axios.get('http://localhost:4000/vehicles/get-vehicles');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(vehicles);
-    }).timeout(5000);
+  it('should return a charger by chargerModel', async () => {
+    const chargerModel = 'ABB Terra 360 - CCS';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    const result = response.data.find(charge => charge.chargerModel === chargerModel);
+    expect(result).to.deep.equal(charges[0]);
   });
 });
 
