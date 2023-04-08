@@ -5,51 +5,83 @@ const charges = require('../chargers.json');
 const vehicles = require('../vehicles.json');
 const axios = require('axios');
 
-describe('charges and Vehicles API', () => {
-  let server;
+const baseUrl = 'https://raw.githubusercontent.com';
 
-  beforeEach((done) => {
-    server = app.listen(4000, () => {
-      done();
-    });
+describe('Vehicles JSON', () => {
+  beforeEach(() => {
+    nock(baseUrl)
+      .get('/ppadmaprasadshenoy/charges-and-vehicles/main/vehicles.json')
+      .reply(200, vehicles);
   });
 
-  afterEach((done) => {
-    server.close(done);
+  afterEach(() => {
+    nock.cleanAll();
   });
 
-  describe('GET /charges', () => {
-    it('should return an array of charges', async () => {
-      nock('http://localhost:4000')
-          .get('/get-charges')
-          .reply(200, charges);
-
-      const response = await axios.get('http://localhost:4000/get-charges');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(charges);
-    }).timeout(5000);
+  it('should return all vehicles', async () => {
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/vehicles.json`);
+    expect(response.status).to.equal(200);
+    expect(response.data).to.deep.equal(vehicles);
   });
 
-  describe('GET /vehicles', () => {
-    it('should return an array of vehicles', async () => {
-      nock('http://localhost:4000')
-          .get('/vehicles')
-          .reply(200, vehicles);
+  it('should return a vehicle by modelname', async () => {
+    const modelname = 'Tesla Model 3';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/vehicles.json`);
+    const result = response.data.find(vehicle => vehicle.modelname === modelname);
+    expect(result).to.deep.equal(vehicles[0]);
+  });
 
-      const response = await axios.get('http://localhost:4000/vehicles');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(vehicles);
-    }).timeout(5000);
+  it('should return empty array if no vehicles found with given connector type', async () => {
+    const connectorType = 'unknown';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/vehicles.json`);
+    const result = response.data.filter(vehicle => vehicle.connectorType.includes(connectorType));
+    expect(result).to.be.an('array').that.is.empty;
+  });
+});
 
-    it('should return an array of vehicles', async () => {
-      nock('http://localhost:4000')
-          .get('/vehicles/get-vehicles')
-          .reply(200, vehicles);
+describe('Chargers JSON', () => {
+  beforeEach(() => {
+    nock(baseUrl)
+      .get('/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json')
+      .reply(200, charges);
+  });
 
-      const response = await axios.get('http://localhost:4000/vehicles/get-vehicles');
-      expect(response.status).to.equal(200);
-      expect(response.data).to.deep.equal(vehicles);
-    }).timeout(5000);
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it('should return all chargers', async () => {
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    expect(response.status).to.equal(200);
+    expect(response.data).to.deep.equal(charges);
+  });
+
+  it('should return a charger by chargerModel', async () => {
+    const chargerModel = 'ABB Terra 360 - CCS';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    const result = response.data.find(charge => charge.chargerModel === chargerModel);
+    expect(result).to.deep.equal(charges[0]);
+  });
+
+  it('should return an empty array if no chargers are found', async () => {
+    const chargerModel = 'Non-existent Charger Model';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    const result = response.data.filter(charge => charge.chargerModel === chargerModel);
+    expect(result).to.be.an('array').that.is.empty;
+  });
+
+  it('should return chargers with the correct powerRating', async () => {
+    const powerRating = '360 kW';
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    const result = response.data.every(charge => charge.powerRating === powerRating);
+    expect(result).to.be.false;
+  });
+
+  it('should return chargers with the correct connectors', async () => {
+    const connectors = ['Type 2'];
+    const response = await axios.get(`${baseUrl}/ppadmaprasadshenoy/charges-and-vehicles/main/chargers.json`);
+    const result = response.data.every(charge => charge.connectors.includes(...connectors));
+    expect(result).to.be.false;
   });
 });
 

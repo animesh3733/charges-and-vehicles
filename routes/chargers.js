@@ -4,7 +4,7 @@ const axios = require('axios');
 
 /* istanbul ignore next */
 router.get('/get-chargers', (req, res) => {
-  axios.get('https://raw.githubusercontent.com/animesh3733/charges-and-vehicles/main/chargers.json')
+  axios.get('https://raw.githubusercontent.com/ppadmaprasadshenoy/charges-and-vehicles/main/routes/chargers.js')
       .then((response) => {
         const data = response.data;
         res.json(data);
