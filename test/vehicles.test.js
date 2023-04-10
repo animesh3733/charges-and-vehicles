@@ -7,8 +7,8 @@ const baseUrl = 'https://raw.githubusercontent.com';
 
 describe('Vehicles JSON', () => {
   beforeEach(() => {
-    nock(baseUrl)
-        .get('/ppadmaprasadshenoy/charges-and-vehicles/main/vehicles.json')
+    nock('http://localhost:3000')
+        .get('/vehicles/get-vehicles')
         .reply(200, vehicles);
   });
 
