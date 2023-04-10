@@ -10,7 +10,7 @@ router.get('/get-chargers', (req, res) => {
         res.json(data);
       })
       .catch((error) => {
-        console.error('Error fetching JSON data from GitHub link');
+        console.error(error);
         res.status(500).send('Error fetching JSON data from GitHub link');
       });
 });
